@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Formulaire de Suivi des Ventes</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    form { max-width: 600px; margin: auto; }
+    label { display: block; margin-top: 10px; font-weight: bold; }
+    input, select { width: 100%; padding: 8px; margin-top: 5px; }
+    button { margin-top: 20px; padding: 10px 20px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h2>Formulaire de Suivi des Ventes</h2>
+  <form id="sales-form">
+    <label for="agent">Agent</label>
+    <select id="agent" name="agent" required>
+      <option value="">-- Choisir un agent --</option>
+<option value="Agent 01">Agent 01</option>
+<option value="Agent 02">Agent 02</option>
+<option value="Agent 03">Agent 03</option>
+<option value="Agent 04">Agent 04</option>
+<option value="Agent 05">Agent 05</option>
+<option value="Agent 06">Agent 06</option>
+<option value="Agent 07">Agent 07</option>
+<option value="Agent 08">Agent 08</option>
+<option value="Agent 09">Agent 09</option>
+<option value="Agent 10">Agent 10</option>
+<option value="Agent 11">Agent 11</option>
+<option value="Agent 12">Agent 12</option>
+<option value="Agent 13">Agent 13</option>
+<option value="Agent 14">Agent 14</option>
+<option value="Agent 15">Agent 15</option>
+<option value="Agent 16">Agent 16</option>
+<option value="Agent 17">Agent 17</option>
+<option value="Agent 18">Agent 18</option>
+<option value="Agent 19">Agent 19</option>
+<option value="Agent 20">Agent 20</option>
+    </select>
+
+    <label for="forfaits">Nombre de forfaits cellulaires</label>
+    <input type="number" id="forfaits" name="forfaits" min="0" required />
+
+    <label for="compagnie">Compagnie</label>
+    <select id="compagnie" name="compagnie" required>
+      <option value="">-- Choisir une compagnie --</option>
+      <option value="Vidéotron">Vidéotron</option>
+      <option value="Bell Mobilité">Bell Mobilité</option>
+      <option value="Telus">Telus</option>
+      <option value="Rogers">Rogers</option>
+      <option value="Fido">Fido</option>
+      <option value="Koodo">Koodo</option>
+      <option value="Virgin Plus">Virgin Plus</option>
+      <option value="Freedom Mobile">Freedom Mobile</option>
+      <option value="Public Mobile">Public Mobile</option>
+      <option value="Chatr">Chatr</option>
+      <option value="Autre">Autre</option>
+    </select>
+
+    <label for="vente">Numéro de vente</label>
+    <input type="text" id="vente" name="vente" required />
+
+    <label for="commande">Date de prise de commande</label>
+    <input type="date" id="commande" name="commande" required />
+
+    <label for="validation">Date de validation</label>
+    <input type="date" id="validation" name="validation" required />
+
+    <button type="submit">Soumettre</button>
+  </form>
+
+  <script>
+    const form = document.getElementById('sales-form');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      try {
+        await fetch('https://script.google.com/macros/s/AKfycbzla1z5nWN3tuQXsWnEIfVk4GjOdU3JgtH4Qa6UeKyX-bGVx0JKgs3798oOhIxaldPT/exec', {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        window.location.href = "merci.html";
+      } catch (error) {
+        alert("Erreur lors de l'envoi. Veuillez réessayer.");
+      }
+    });
+  </script>
+</body>
+</html>
