@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Formulaire Tigydoo</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f0f4f8; }
+    header { background: #0054a6; color: white; padding: 1rem; text-align: center; }
+    form { max-width: 600px; margin: 2rem auto; background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); }
+    .form-group { margin-bottom: 1.2rem; }
+    label { display: block; margin-bottom: 0.5rem; font-weight: bold; }
+    input, select, textarea { width: 100%; padding: 0.8rem; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
+    button { background: #0054a6; color: white; padding: 0.8rem 1.2rem; border: none; border-radius: 5px; cursor: pointer; font-size: 1rem; width: 100%; }
+    button:hover { background: #3f51b5; }
+    @media (max-width: 600px) { form { padding: 1rem; margin: 1rem; } h1 { font-size: 1.4rem; } }
+  </style>
+</head>
+<body>
+  <header><h1>Formulaire de Contact Tigydoo</h1></header>
+  <form id="formulaire-tigydoo">
+    <div class="form-group"><label for="nom">Nom complet*</label><input id="nom" name="nom" required type="text"/></div>
+    <div class="form-group">
+      <label for="email">Adresse email</label>
+      <div style="display: flex; align-items: center;">
+        <span style="padding: 0.8rem; background-color: #e0e7ef; border: 1px solid #ccc; border-right: none; border-radius: 5px 0 0 5px;">@</span>
+        <input id="email" name="email" required type="email" style="flex: 1; border-radius: 0 5px 5px 0;"/>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="telephone">Cellulaire*</label>
+      <div style="display: flex; align-items: center;">
+        <span style="padding: 0.8rem; background-color: #e0e7ef; border: 1px solid #ccc; border-right: none; border-radius: 5px 0 0 5px;">+1</span>
+        <input id="telephone" name="telephone" required pattern="\(\d{3}\) \d{3}-\d{4}" placeholder="(000) 000-0000" type="tel" style="flex: 1; border-radius: 0 5px 5px 0;"/>
+      </div>
+      <small>Format : (450) 123-4567</small>
+    </div>
+    <div class="form-group"><label for="porte">N° de porte</label><input id="porte" name="porte" type="text"/></div>
+    <div class="form-group">
+      <label for="type_voie">Adresse</label>
+      <select id="type_voie" name="type_voie" required>
+        <option value="">-- Sélectionnez --</option>
+        <option value="Rue">Rue</option><option value="Place">Place</option>
+        <option value="Boulevard">Boulevard</option><option value="Avenue">Avenue</option><option value="Rang">Rang</option>
+      </select>
+    </div>
+    <div class="form-group" id="nom_voie_group" style="display: none;"><label for="nom_voie">Nom voie</label><input id="nom_voie" name="nom_voie" type="text"/></div>
+    <div class="form-group"><label for="ville">Ville</label><input id="ville" name="ville" type="text"/></div>
+    <div class="form-group">
+      <label for="province">Province</label>
+      <select id="province" name="province" required>
+        <option value="">-- Sélectionnez --</option><option value="QC">Québec</option>
+        <!-- autres provinces -->
+      </select>
+    </div>
+    <div class="form-group"><label for="code_postal">Code postal</label><input id="code_postal" name="code_postal" placeholder="A1A 1A1" type="text"/></div>
+    <div class="form-group">
+      <label for="services">Services souhaités</label>
+      <select id="services" name="services" required>
+        <option value="">-- Choisir un service --</option>
+        <option value="FORFAIT CELLULAIRE">FORFAIT CELLULAIRE</option>
+        <option value="TRIO">TRIO</option>
+        <option value="DUO TV + INT">DUO TV + INT</option>
+        <option value="DUO INT + TPC">DUO INT + TPC</option>
+        <option value="TOUS">TOUS</option>
+      </select>
+    </div>
+    <button type="submit">Soumettre</button>
+  </form>
+  <script>
+    document.getElementById('telephone').addEventListener('input', function (e) {
+      let x = e.target.value.replace(/\D/g, '').substring(0, 10);
+      let formatted = '';
+      if (x.length > 0) formatted += '(' + x.substring(0, 3);
+      if (x.length >= 4) formatted += ') ' + x.substring(3, 6);
+      if (x.length >= 7) formatted += '-' + x.substring(6, 10);
+      e.target.value = formatted;
+    });
+    document.getElementById('type_voie').addEventListener('change', function () {
+      var nomVoieGroup = document.getElementById('nom_voie_group');
+      nomVoieGroup.style.display = this.value ? 'block' : 'none';
+    });
+    document.getElementById("formulaire-tigydoo").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const form = e.target;
+      const data = new FormData(form);
+      fetch("https://script.google.com/macros/s/AKfycbypTE9ZXuVErsxyYU-y1R-cnrPMpY_hNRcBcUxoWDF1y9QclynZ8S3EXS5YpOQRWmI/exec", {
+        method: "POST",
+        body: data
+      })
+      .then(response => {
+        if (response.ok) {
+          window.location.href = "merci.html";
+        } else {
+          alert("Erreur d'envoi.");
+        }
+      })
+      .catch(error => {
+        console.error("Erreur :", error);
+        alert("Une erreur technique est survenue.");
+      });
+    });
+  </script>
+</body>
+</html>
